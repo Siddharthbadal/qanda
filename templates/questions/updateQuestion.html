@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+    Update Question
+{% endblock title %}
+
+{% block style %}
+   <style>
+    .answer-footer{
+        color:  #C4A484;
+    }
+   </style>
+{% endblock style %}
+
+{% block body %}
+   <div class="container mt-5 update-style">
+    <h3>Update Your Question</h3>
+
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form | crispy }}
+
+        <input type="submit" value="Update" class="btn btn-primary">
+
+   </div>
+
+{% endblock body %}

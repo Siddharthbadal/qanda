@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Question Details
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .answer-footer{
+            color: brown;
+        }
+   </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1>{{question.title}}</h1>
+    <p>{{question.body}}</p>
+
+    <h6>Posted By: <i>{{question.author}}</i></h6>
+    <p class='published'>Published on {{question.created_at}}</p>
+    
+    
+    {% if request.user == question.author %}
+        <a class="btn btn-info" href="{% url "update_question" question.slug %}">Update</a>
+        <a class="btn btn-danger" href="{% url "delete_question" question.slug %}">Delete</a>
+        <hr>
+    {% endif %}
+
+</div>
+
+<div class="container">
+    {% for answer in answer_list %}
+        <div  class='card mt-4 py-3 shadow'>
+            <div class="card-body">
+                <p class="card-text">
+                    {{answer.description}}
+                </p>
+                
+
+
+
+
+                <div class="card-footer">
+                    <div class="row">
+                    <div class="col col-md-auto answer-footer">
+                        <small>Answered By: {{answer.author.username}}</small>
+                    </div>
+                    <div class="col col-md-auto answer-footer">
+                        <small>Answered at: {{answer.created_at}}</small>
+                    </div>
+                    {% comment %} <div class="col col-md-auto answer-footer">
+                        
+                        <i class="far fa-thumbs-up"></i><small><strong>12</strong></small>
+                    </div> {% endcomment %}
+                    </div>
+                
+                </div>
+            
+        {% if request.user == answer.author %}
+            <a class="btn btn-outline-info btn-sm mt-3" href="{% url "update_answer" answer.id %}">Update</a>
+            <a class="btn btn-outline-danger btn-sm mt-3" href="{% url "delete_answer" answer.id %}">Delete</a>
+       
+    {% endif %}
+</div>
+        </div>
+    {% endfor %}
+</div>
+
+
+<!---answers -->
+<div class="container">
+    <div class="card mt-4">
+        <form method="POST" novalidate>
+            <h5 class="card-header">Add Answer</h5>
+            <div class="card-body">
+                {% csrf_token %}
+                {{answerform | crispy }}
+
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock body %}

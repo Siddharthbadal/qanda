@@ -1,0 +1,67 @@
+<style>
+    .text-style{
+        font-size: 30px !important;
+        font-fmaily: fantay !important;
+        color: brown !important;
+        font-weight:bold;
+
+    }
+
+</style>
+  
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand text-style" href="{% url 'questions_list' %}">QandA</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          {% if request.user.is_authenticated %}
+            <li class="nav-item mx-5">
+                <a class="nav-link disabled">
+                Welcome, {{request.user.username}}</a>
+              </li>
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searchquery'>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'create_question' %}">Add Question</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">logout</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Profile
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'changeProfile' %}">Update Account</a></li>
+                  
+                  <li><a class="dropdown-item" href="{% url 'profileInfo' %}">Q and A</a></li>
+                </ul>
+              </li>
+              {% else %}
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searchquery'>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      </nav>

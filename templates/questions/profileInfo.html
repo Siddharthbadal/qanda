@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Profile Details
+{% endblock %}
+
+{% block style %}
+    <style>
+        .link-style{
+            text-decoration:none;
+            color:rgb(28,90,4)
+        }
+         .link-style:hover{
+            text-decoration:none;
+            color:gray;
+        }
+        .user-detail{
+            margin-left: 10px;
+        }
+    </style>
+{% endblock style %}
+
+
+
+
+{% block body %}
+<div class="container mt-5">
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Questions</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Answers </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Profile</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="card mt-4 py-3 shadow">
+            <h4 class="card-header">You have asked {{questions.count}} question</h4>
+            <div class="card-body">
+                {% for question in questions %}
+                    <h5 class="card-text">
+                        <a class="link-style" href="{% url 'question_details' question.slug %}">
+                            {{question.title}}
+                        </a>
+                    </h5>
+                    <a class="btn btn-info btn-sm" href="{% url "update_question" question.slug %}">Update</a>
+                    <a class="btn btn-danger btn-sm" href="{% url "delete_question" question.slug %}">Delete</a>
+        <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="card mt-4 py-3 shadow">
+            <h4 class="card-header">You have answered {{answers.count}} questions</h4>
+            <div class="card-body">
+                {% for answer in answers %}
+
+                    {% for question in questions %}
+                    <h5 class="card-text">
+                        
+                        {{answer.question.title}}
+                        
+                    </h5>
+                    {% endfor %}
+
+                    <p class="card-text">
+                        {{answer.description}}
+                    </p>
+                    <a class="btn btn-info btn-sm" href="{% url "update_answer" answer.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm" href="{% url "delete_answer" answer.id %}">Delete</a>
+        <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+        <div class="card mt-4 py-3 shadow">
+        <h4 class="card-header">User Details</h4>
+        {% for u in user %}
+             <p class="user-detail ">User name: <strong>{{u.username}}</strong></p>
+             <p class="user-detail ">User email:<strong>{{u.email}}</strong></p> 
+             <p class="user-detail ">Full name:<strong>{{u.first_name}} {{u.last_name}}</strong></p> 
+        {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}
